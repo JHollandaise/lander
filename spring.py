@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 # simulation time, timestep and time
-t_max = 100
+t_max = 10
 dt = 0.1
 t_array = np.arange(0, t_max, dt)
 
