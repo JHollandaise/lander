@@ -169,7 +169,7 @@ unsigned long throttle_buffer_length, throttle_buffer_pointer;
 double *throttle_buffer = NULL;
 unsigned long long time_program_started;
 
-// Lander state - the visualization routines use velocity_from_positions, so not sensitive to 
+// Lander state - the visualization routines use velocity_from_positions, so not sensitive to
 // any errors in the velocity update in numerical_dynamics
 vector3d position, orientation, velocity, velocity_from_positions, last_position;
 double climb_speed, ground_speed, altitude, throttle, fuel;

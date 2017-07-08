@@ -20,11 +20,39 @@ void autopilot (void)
   // INSERT YOUR CODE HERE
 }
 
+vector3d force_vector (void)
+  // calculates the force acting on the body
+{
+  vector3d f_thrust = thrust_wrt_world();
+  vector3d f_drag = - 0.5 * atmospheric_density(position) * velocity.abs2()*velocity.norm();
+  if(parachute_status==1) f_drag*=(DRAG_COEF_CHUTE+DRAG_COEF_LANDER)*LANDER_SIZE*LANDER_SIZE*(M_PI+20);
+  else f_drag*=DRAG_COEF_LANDER*LANDER_SIZE*LANDER_SIZE*M_PI;
+  vector3d f_grav = -(GRAVITY*MARS_MASS*(UNLOADED_LANDER_MASS+fuel*FUEL_CAPACITY*FUEL_DENSITY))/(position.abs2())*position.norm();
+
+  return (f_thrust + f_drag + f_grav)/(UNLOADED_LANDER_MASS+fuel*FUEL_CAPACITY*FUEL_DENSITY);
+}
+
 void numerical_dynamics (void)
   // This is the function that performs the numerical integration to update the
   // lander's pose. The time step is delta_t (global variable).
+
 {
-  // INSERT YOUR CODE HERE
+  static vector3d prev_position;
+  vector3d new_position;
+
+  if (simulation_time == 0.0) {
+    new_position = position + delta_t*velocity;
+    velocity = velocity + delta_t*force_vector();
+  } else {
+    new_position = 2*position - prev_position + delta_t*delta_t*force_vector();
+    velocity = 1/(2*delta_t)*(new_position-prev_position);
+  }
+
+  prev_position = position;
+  position = new_position;
+
+
+
 
   // Here we can apply an autopilot to adjust the thrust, parachute and attitude
   if (autopilot_enabled) autopilot();
