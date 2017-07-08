@@ -7,13 +7,12 @@ G = 6.67428*(10**-11)
 M = 6.42*(10**23)
 
 # Time variants
-t_max = 24*60*60
-dt = 1
+t_max = 150000
+dt = 10
 
 # Starting values
-# Circular orbit at 50km
 pos_init = np.array([17031000,0,0])
-vel_init = np.array([0,1586.169,0])
+vel_init = np.array([900,1000,0])
 
 
 def Euler():
