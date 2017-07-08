@@ -7,13 +7,13 @@ G = 6.67428*(10**-11)
 M = 6.42*(10**23)
 
 # Time variants
-t_max = 8.8
-dt = 0.01
+t_max = 24*60*60
+dt = 1
 
 # Starting values
 # Circular orbit at 50km
-pos_init = np.array([50000,0,0])
-vel_init = np.array([0,27000,0])
+pos_init = np.array([17031000,0,0])
+vel_init = np.array([0,1586.169,0])
 
 
 def Euler():
@@ -73,6 +73,7 @@ def Verlet():
         f = -(G*M)/(np.linalg.norm(pos)**3)*pos
 
         pos = 2*pos - pos_array[i-2] + dt**2*f
+
         vel = (1/(2*dt))*(pos - pos_array[i-1])
 
         # add to array
