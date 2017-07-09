@@ -30,7 +30,10 @@ void autopilot (void)
   // error value in desent speed
   double e = -(0.5 + K_h*(position.abs()- MARS_RADIUS) + velocity * position.norm());
 
+  // output parameter
   double P_out = K_p * e;
+
+  // throttle
   if (P_out <= -delta) throttle = 0;
   else if ( P_out < 1-delta) throttle = delta + P_out;
   else throttle = 1;
