@@ -13,11 +13,28 @@
 // ahg@eng.cam.ac.uk and gc121@eng.cam.ac.uk.
 
 #include "lander.h"
+#include <iostream>
 
 void autopilot (void)
   // Autopilot to adjust the engine throttle, parachute and attitude control
 {
-  // INSERT YOUR CODE HERE
+  // delta determines the thrust value when P_out = 0
+  double delta = (UNLOADED_LANDER_MASS + fuel*FUEL_DENSITY*FUEL_CAPACITY)*MARS_RADIUS*MARS_RADIUS
+    /(1.5*position.abs2()*(UNLOADED_LANDER_MASS + FUEL_DENSITY*FUEL_CAPACITY));
+
+
+  // constants for control
+  double K_h = 0.01908;
+  double K_p = 0.4;
+
+  // error value in desent speed
+  double e = -(0.5 + K_h*(position.abs()- MARS_RADIUS) + velocity * position.norm());
+
+  double P_out = K_p * e;
+  if (P_out <= -delta) throttle = 0;
+  else if ( P_out < 1-delta) throttle = delta + P_out;
+  else throttle = 1;
+
 }
 
 vector3d force_vector (void)
